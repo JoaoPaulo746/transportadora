@@ -1,1 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Viatex Transportadora - Presença em Todo Brasil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(90deg, #006400, #ffd700, #1e90ff);
+      color: white;
+      padding: 20px 15px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: 1px;
+    }
+    header p {
+      margin: 5px 0 0;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    main {
+      flex: 1;
+      padding: 20px 15px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .intro {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+    .intro h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #006400;
+    }
+    .intro p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #444;
+    }
+    #map {
+      height: 600px;
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    footer {
+      background-color: #ffd700;
+      color: #006400;
+      text-align: center;
+      padding: 15px 10px;
+      font-weight: bold;
+      font-size: 1rem;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      margin-top: auto;
+    }
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .intro h2 {
+        font-size: 1.4rem;
+      }
+      #map {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Viatex Transportadora</h1>
+    <p>Presença em todo o Brasil - Clique no estado para conhecer nossos serviços</p>
+  </header>
 
+  <main>
+    <section class="intro">
+      <h2>Conectando o Brasil com eficiência e segurança</h2>
+      <p>
+        A Viatex Transportadora oferece soluções logísticas completas para atender às necessidades do seu negócio em todos os estados brasileiros. Navegue pelo mapa abaixo e clique no seu estado para conhecer os serviços disponíveis.
+      </p>
+    </section>
+
+    <section id="map"></section>
+  </main>
+
+  <footer>
+    &copy; 2025 Viatex Transportadora — Todos os direitos reservados
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([-14.2, -51.9], 4);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const estados = [
+      { nome: "Acre", sigla: "ac", lat: -9.97, lon: -67.81 },
+      { nome: "Alagoas", sigla: "al", lat: -9.62, lon: -36.82 },
+      { nome: "Amapá", sigla: "ap", lat: 0.9, lon: -52.0 },
+      { nome: "Amazonas", sigla: "am", lat: -3.07, lon: -61.66 },
+      { nome: "Bahia", sigla: "ba", lat: -12.96, lon: -38.51 },
+      { nome: "Ceará", sigla: "ce", lat: -4.0, lon: -39.0 },
+      { nome: "Distrito Federal", sigla: "df", lat: -15.8, lon: -47.86 },
+      { nome: "Espírito Santo", sigla: "es", lat: -20.3, lon: -40.3 },
+      { nome: "Goiás", sigla: "go", lat: -16.64, lon: -49.31 },
+      { nome: "Maranhão", sigla: "ma", lat: -5.42, lon: -45.44 },
+      { nome: "Mato Grosso", sigla: "mt", lat: -12.64, lon: -55.42 },
+      { nome: "Mato Grosso do Sul", sigla: "ms", lat: -20.51, lon: -54.54 },
+      { nome: "Minas Gerais", sigla: "mg", lat: -18.1, lon: -44.38 },
+      { nome: "Pará", sigla: "pa", lat: -3.79, lon: -52.48 },
+      { nome: "Paraíba", sigla: "pb", lat: -7.06, lon: -35.55 },
+      { nome: "Paraná", sigla: "pr", lat: -24.89, lon: -51.55 },
+      { nome: "Pernambuco", sigla: "pe", lat: -8.28, lon: -35.07 },
+      { nome: "Piauí", sigla: "pi", lat: -7.71, lon: -42.73 },
+      { nome: "Rio de Janeiro", sigla: "rj", lat: -22.9, lon: -43.2 },
+      { nome: "Rio Grande do Norte", sigla: "rn", lat: -5.22, lon: -36.52 },
+      { nome: "Rio Grande do Sul", sigla: "rs", lat: -30.03, lon: -51.22 },
+      { nome: "Rondônia", sigla: "ro", lat: -11.22, lon: -62.8 },
+      { nome: "Roraima", sigla: "rr", lat: 1.89, lon: -61.22 },
+      { nome: "Santa Catarina", sigla: "sc", lat: -27.33, lon: -49.44 },
+      { nome: "São Paulo", sigla: "sp", lat: -23.55, lon: -46.63 },
+      { nome: "Sergipe", sigla: "se", lat: -10.9, lon: -37.07 },
+      { nome: "Tocantins", sigla: "to", lat: -10.25, lon: -48.25 }
+    ];
+
+    estados.forEach(e => {
+      L.circleMarker([e.lat, e.lon], {
+        radius: 10,
+        color: "#003366",
+        fillColor: "#3399ff",
+        fillOpacity: 0.8
+      })
+        .addTo(map)
+        .bindTooltip(e.nome, { permanent: false, direction: 'top' })
+        .on('click', () => {
+          window.location.href = `${e.sigla}.html`;
+        });
+    });
+  </script>
+</body>
+</html>
